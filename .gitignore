@@ -1,0 +1,17 @@
+# Compiled
+*.class
+out/
+bin/
+build/
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
