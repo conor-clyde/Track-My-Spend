@@ -1,64 +1,34 @@
-import banking.Account;
-import banking.Bank;
-import banking.CheckingAccount;
-import banking.Customer;
-import banking.InsufficientFundsException;
-import banking.SavingsAccount;
-import java.math.BigDecimal;
+
+import models.User;
+import values.Categories;
+import models.Account;
+import models.ExpenseTransaction;
+import models.IncomeTransaction;
+
+import java.time.LocalDateTime;
 
 /**
- * Console demo: inheritance, polymorphism, encapsulation, and domain exceptions.
+ * Console demo: inherihelptance, polymorphism, encapsulation, and domain exceptions.
  */
 public class Main {
     public static void main(String[] args) {
-        Bank bank = new Bank("Portfolio Community Bank");
 
-        Customer alice = bank.registerCustomer("C-1001", "Alice");
-        CheckingAccount checking =
-                bank.openCheckingAccount(alice, new BigDecimal("500.00"), new BigDecimal("100.00"));
-        SavingsAccount savings =
-                bank.openSavingsAccount(alice, new BigDecimal("2000.00"), new BigDecimal("100.00"), new BigDecimal("3.5"));
+        System.out.println("Running Banking System");
 
-        System.out.println("=== " + bank.getName() + " ===");
-        System.out.println(alice);
-        for (Account a : alice.getAccounts()) {
-            System.out.println("  " + a);
-        }
+        User user = new User("1234567890", "John Doe");
+        Account account = new Account("1234567890", "John Doe", 4000.00);
+        user.addAccount(account);
+        System.out.println(user);
+        System.out.println(account);
 
-        try {
-            checking.withdraw(new BigDecimal("550.00"));
-            System.out.println("After $550 withdraw from checking: " + checking.getBalance());
-        } catch (InsufficientFundsException e) {
-            System.out.println("Expected guard: " + e.getMessage());
-        }
+        ExpenseTransaction transaction = new ExpenseTransaction("1234567890", 1000.00, LocalDateTime.now(), Categories.FOOD);
+        account.addTransaction(transaction);
+        System.out.println(transaction);
 
-        try {
-            savings.withdraw(new BigDecimal("1950.00"));
-        } catch (InsufficientFundsException e) {
-            System.out.println("Savings rule: " + e.getMessage());
-        }
+        IncomeTransaction incomeTransaction = new IncomeTransaction("1234567890", 1000.00, LocalDateTime.now(), Categories.SALARY);
+        account.addTransaction(incomeTransaction);
+        System.out.println(incomeTransaction);
 
-        try {
-            bank.transfer(checking, savings, new BigDecimal("50.00"));
-            System.out.println("Transferred $50 checking -> savings");
-            System.out.println("Checking: " + checking.getBalance() + " | Savings: " + savings.getBalance());
-        } catch (InsufficientFundsException e) {
-            System.out.println(e.getMessage());
-        }
-
-        savings.applyMonthlyInterest();
-        System.out.println("After monthly interest on savings: " + savings.getBalance());
-
-        polymorphismDemo(alice.getAccounts());
     }
 
-    /**
-     * Same {@link Account} reference type, different runtime behavior (polymorphism).
-     */
-    private static void polymorphismDemo(java.util.List<Account> accounts) {
-        System.out.println("\n--- Polymorphism: withdraw rules per concrete type ---");
-        for (Account a : accounts) {
-            System.out.println(a.accountType() + " withdraw policy is implemented in " + a.getClass().getSimpleName());
-        }
-    }
 }
