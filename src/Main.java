@@ -16,7 +16,7 @@ public class Main {
         System.out.println("Running Banking System");
 
         User user = new User("1234567890", "John Doe");
-        Account account = new Account("1234567890", "John Doe", 4000.00);
+        Account account = new Account("My Account", 4000.00);
         user.addAccount(account);
         System.out.println(user);
         System.out.println(account);
