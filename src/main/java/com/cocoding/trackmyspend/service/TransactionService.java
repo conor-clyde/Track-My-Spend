@@ -8,98 +8,28 @@ import com.cocoding.trackmyspend.domain.Transaction;
 import com.cocoding.trackmyspend.domain.accounts.Account;
 
 public class TransactionService {
-    public Transaction recordExpense(
-            Account account,
-            double amount,
-            Category category,
-            String description) {
-        return recordExpense(account, amount, category, description, LocalDateTime.now());
-    }
-
-    public Transaction recordExpense(
+    public Transaction recordTransaction(
             Account account,
             double amount,
             Category category,
             String description,
-            LocalDateTime timestamp) {
-        Objects.requireNonNull(account, "account");
+            Transaction.TransactionType type) {
+        Objects.requireNonNull(type, "type");
         Objects.requireNonNull(category, "category");
-        Objects.requireNonNull(description, "description");
-        Objects.requireNonNull(timestamp, "timestamp");
-
-        if (!category.isExpenseCategory()) {
-            throw new IllegalArgumentException("Expense transactions require an expense category.");
+        if (type == Transaction.TransactionType.TRANSFER) {
+            throw new IllegalArgumentException("Use transfer(...) for transfer transactions.");
         }
-
-        Transaction transaction = new Transaction(
-                amount,
-                timestamp,
-                category,
-                description,
-                Transaction.TransactionType.EXPENSE);
-
-        account.changeBalance(-amount);
-        account.addTransaction(transaction);
-        return transaction;
+        validateCategoryForType(category, type);
+        LocalDateTime timestamp = LocalDateTime.now();
+        int balanceDirection = type == Transaction.TransactionType.EXPENSE ? -1 : 1;
+        return recordCategorized(account, amount, category, description, timestamp, type, balanceDirection);
     }
 
-    public Transaction recordIncome(
-            Account account,
-            double amount,
-            Category category,
-            String description) {
-        return recordIncome(account, amount, category, description, LocalDateTime.now());
-    }
-
-    public Transaction recordIncome(
-            Account account,
-            double amount,
-            Category category,
-            String description,
-            LocalDateTime timestamp) {
-        Objects.requireNonNull(account, "account");
-        Objects.requireNonNull(category, "category");
-        Objects.requireNonNull(description, "description");
-        Objects.requireNonNull(timestamp, "timestamp");
-
-        if (!category.isIncomeCategory()) {
-            throw new IllegalArgumentException("Income transactions require an income category.");
-        }
-
-        Transaction transaction = new Transaction(
-                amount,
-                timestamp,
-                category,
-                description,
-                Transaction.TransactionType.INCOME);
-
-        account.changeBalance(amount);
-        account.addTransaction(transaction);
-        return transaction;
-    }
-
-    public void transfer(
-            Account fromAccount,
-            Account toAccount,
-            double amount,
-            String description) {
-        transfer(fromAccount, toAccount, amount, description, LocalDateTime.now());
-    }
-
-    public void transfer(
-            Account fromAccount,
-            Account toAccount,
-            double amount,
-            String description,
-            LocalDateTime timestamp) {
+    public void transfer(Account fromAccount, Account toAccount, double amount, String description) {
+        LocalDateTime timestamp = LocalDateTime.now();
+        validateBasics(amount, description, timestamp);
         Objects.requireNonNull(fromAccount, "fromAccount");
         Objects.requireNonNull(toAccount, "toAccount");
-        Objects.requireNonNull(description, "description");
-        Objects.requireNonNull(timestamp, "timestamp");
-
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Transfer amount must be positive.");
-        }
         if (fromAccount == toAccount) {
             throw new IllegalArgumentException("Transfer accounts must be different.");
         }
@@ -107,15 +37,55 @@ public class TransactionService {
         fromAccount.changeBalance(-amount);
         toAccount.changeBalance(amount);
 
-        fromAccount.addTransaction(new Transaction(
-                amount,
-                timestamp,
+        addTransferTransaction(fromAccount, amount, timestamp,
                 "Transfer to " + toAccount.getName() + ": " + description,
-                Transaction.TransactionType.TRANSFER));
-        toAccount.addTransaction(new Transaction(
-                amount,
-                timestamp,
+                Transaction.TransactionType.TRANSFER);
+        addTransferTransaction(toAccount, amount, timestamp,
                 "Transfer from " + fromAccount.getName() + ": " + description,
-                Transaction.TransactionType.TRANSFER));
+                Transaction.TransactionType.TRANSFER);
+    }
+
+    private Transaction recordCategorized(
+            Account account,
+            double amount,
+            Category category,
+            String description,
+            LocalDateTime timestamp,
+            Transaction.TransactionType type,
+            int balanceDirection) {
+        Objects.requireNonNull(account, "account");
+        Objects.requireNonNull(category, "category");
+        validateBasics(amount, description, timestamp);
+
+        Transaction transaction = new Transaction(amount, timestamp, category, description, type);
+        account.changeBalance(balanceDirection * amount);
+        account.addTransaction(transaction);
+        return transaction;
+    }
+
+    private void addTransferTransaction(
+            Account account,
+            double amount,
+            LocalDateTime timestamp,
+            String description,
+            Transaction.TransactionType type) {
+        account.addTransaction(new Transaction(amount, timestamp, description, type));
+    }
+
+    private void validateCategoryForType(Category category, Transaction.TransactionType type) {
+        if (type == Transaction.TransactionType.EXPENSE && !category.isExpenseCategory()) {
+            throw new IllegalArgumentException("Expense transactions require an expense category.");
+        }
+        if (type == Transaction.TransactionType.INCOME && !category.isIncomeCategory()) {
+            throw new IllegalArgumentException("Income transactions require an income category.");
+        }
+    }
+
+    private void validateBasics(double amount, String description, LocalDateTime timestamp) {
+        Objects.requireNonNull(description, "description");
+        Objects.requireNonNull(timestamp, "timestamp");
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
     }
 }

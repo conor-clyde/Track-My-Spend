@@ -2,7 +2,6 @@ package com.cocoding.trackmyspend;
 
 import com.cocoding.trackmyspend.domain.Transaction;
 import com.cocoding.trackmyspend.domain.User;
-import com.cocoding.trackmyspend.domain.accounts.Account;
 import com.cocoding.trackmyspend.seed.ConsoleMainSeeder;
 import com.cocoding.trackmyspend.service.ReportGenerator;
 import com.cocoding.trackmyspend.service.TransactionService;
@@ -19,7 +18,12 @@ public class Main {
 
 
         TransactionService transactionService = new TransactionService();
-        transactionService.recordExpense(user.getAccounts().get(0), 60.00, user.getCategories().get(0), "Groceries");
+        transactionService.recordTransaction(
+                user.getAccounts().get(0),
+                60.00,
+                user.getCategories().get(0),
+                "Groceries",
+                Transaction.TransactionType.EXPENSE);
         System.out.println("Transaction recorded: Groceries");
         reportGenerator.generateReport(user);
 
