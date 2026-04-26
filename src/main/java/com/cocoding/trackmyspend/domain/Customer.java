@@ -1,4 +1,4 @@
-package models;
+package com.cocoding.trackmyspend.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.cocoding.trackmyspend.domain.accounts.Account;
+
 /**
  * Owns accounts; list is defensively copied (encapsulation).
  */
 public class Customer {
     private final String id;
     private String name;
-    private List<Account> accounts = new ArrayList<>();
+    private List<Account> accounts;
 
     public Customer(String name) {
         this.id = UUID.randomUUID().toString();
@@ -46,8 +48,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer: Name=" + name + ", accounts=" + 
+        return "Customer: Name=" + name + ", accounts=" +
         accounts.toString() + "]";
     }
-    
 }

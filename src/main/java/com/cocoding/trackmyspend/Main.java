@@ -1,21 +1,19 @@
+package com.cocoding.trackmyspend;
 
-import models.Customer;
-import values.Categories;
-import models.Account;
-import models.CheckingAccount;
-import models.SavingsAccount;
-import models.Transaction;
 import java.time.LocalDateTime;
-import util.Util;
 
-/**
- * Console demo: inherihelptance, polymorphism, encapsulation, and domain
- * exceptions.
- */
+import com.cocoding.trackmyspend.domain.Customer;
+import com.cocoding.trackmyspend.domain.Transaction;
+import com.cocoding.trackmyspend.domain.accounts.Account;
+import com.cocoding.trackmyspend.domain.accounts.CheckingAccount;
+import com.cocoding.trackmyspend.domain.accounts.SavingsAccount;
+import com.cocoding.trackmyspend.domain.values.ExpenseCategory;
+import com.cocoding.trackmyspend.domain.values.IncomeCategory;
+import com.cocoding.trackmyspend.util.Util;
+
 public class Main {
     public static void main(String[] args) {
-
-        System.out.println("Running Banking System");
+        Util.print("Running OOP mode (no Spring Boot startup)");
 
         Customer customer = new Customer("Conor Clyde");
         Account checking = new CheckingAccount("Checking Account", 1200.00);
@@ -26,25 +24,22 @@ public class Main {
         Transaction expense = new Transaction(
                 40.00,
                 LocalDateTime.now(),
-                Categories.FOOD,
-                Transaction.TransactionType.EXPENSE);
+                ExpenseCategory.FOOD,
+                Transaction.TransactionType.EXPENSE,
+                "Food");
         Transaction income = new Transaction(
                 1200.00,
                 LocalDateTime.now(),
-                Categories.SALARY,
-                Transaction.TransactionType.INCOME);
+                IncomeCategory.SALARY,
+                Transaction.TransactionType.INCOME,
+                "Salary");
         checking.addTransaction(expense);
         checking.addTransaction(income);
 
         for (Account account : customer.getAccounts()) {
-          
             for (Transaction transaction : account.getTransctions()) {
                 Util.print(transaction.toString());
             }
         }
-     
-        
-
     }
-
 }

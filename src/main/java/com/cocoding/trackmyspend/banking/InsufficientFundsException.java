@@ -1,4 +1,4 @@
-package banking;
+package com.cocoding.trackmyspend.banking;
 
 /**
  * Domain-specific checked-style exception for invalid withdrawals.

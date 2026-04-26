@@ -1,8 +1,10 @@
-package models;
+package com.cocoding.trackmyspend.domain.accounts;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.cocoding.trackmyspend.domain.Transaction;
 
 public abstract class Account {
     private final String id;
@@ -16,6 +18,9 @@ public abstract class Account {
         this.balance = balance;
         this.transctions = new ArrayList<>();
     }
+
+    public abstract void deposit(double amount);
+    public abstract void withdraw(double amount);
 
     public String getId() {
         return id;
@@ -33,8 +38,8 @@ public abstract class Account {
         return balance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void changeBalance(double amount) {
+        this.balance += amount;
     }
 
     public List<Transaction> getTransctions() {

@@ -1,4 +1,4 @@
-package util;
+package com.cocoding.trackmyspend.util;
 
 public class Util {
     public static void print(String message) {
