@@ -14,8 +14,6 @@ public class Main {
 
         System.err.println("before new transaction");
         ReportGenerator reportGenerator = new ReportGenerator();
-        reportGenerator.generateReport(user);
-
 
         TransactionService transactionService = new TransactionService();
         transactionService.recordTransaction(
@@ -27,6 +25,5 @@ public class Main {
         System.out.println("Transaction recorded: Groceries");
         reportGenerator.generateReport(user);
 
-     
     }
 }

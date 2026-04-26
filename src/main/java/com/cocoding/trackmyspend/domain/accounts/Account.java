@@ -16,6 +16,7 @@ public abstract class Account {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.balance = balance;
+        this.transactions = new ArrayList<Transaction>();
     }
 
     public abstract void deposit(double amount);
@@ -46,14 +47,15 @@ public abstract class Account {
     }
 
     public void addTransaction(Transaction transaction) {
-        if (transactions == null) {
-            transactions = new ArrayList<Transaction>();
-        }
-        this.transactions.add(transaction);
+        transactions.add(transaction);
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        transactions.remove(transaction);
     }
 
     @Override
     public String toString() {
-        return "Account: Name=" + name + ", balance=" + balance + ", transactions=" + transactions.toString() + "]";
+        return "Account: Name=" + name + ", balance=" + balance + ", transactions=" + transactions.toString();
     }
 }
