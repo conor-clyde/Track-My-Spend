@@ -9,12 +9,12 @@ import java.util.UUID;
 /**
  * Owns accounts; list is defensively copied (encapsulation).
  */
-public class User {
+public class Customer {
     private final String id;
     private String name;
     private List<Account> accounts = new ArrayList<>();
 
-    public User(String id, String name) {
+    public Customer(String name) {
         this.id = UUID.randomUUID().toString();
         this.name = Objects.requireNonNull(name, "name");
         this.accounts = new ArrayList<>();
@@ -38,6 +38,16 @@ public class User {
 
     public void addAccount(Account account) {
         accounts.add(account);
+    }
+
+    public void removeAccount(Account account) {
+        accounts.remove(account);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer: Name=" + name + ", accounts=" + 
+        accounts.toString() + "]";
     }
     
 }

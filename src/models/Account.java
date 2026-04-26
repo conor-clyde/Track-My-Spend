@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Account {
+public abstract class Account {
     private final String id;
     private String name;
     private double balance;
@@ -45,4 +45,8 @@ public class Account {
         this.transctions.add(transaction);
     }
 
+    @Override
+    public String toString() {
+        return "Account: Name=" + name + ", balance=" + balance + ", transctions=" + transctions.toString() + "]";
+    }
 }
