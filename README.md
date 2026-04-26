@@ -1,36 +1,33 @@
-# TrackMySpend - Java Personal Finance Tracker
+# TrackMySpend
 
-TrackMySpend is a Java OOP project for managing accounts, income, expenses, and transaction categories.  
-It is built as a learning/portfolio project to practice object-oriented design and core software engineering fundamentals.
+TrackMySpend is a simple Java finance tracker used to practice OOP fundamentals, while keeping a Spring Boot starter setup ready for web/API work.
 
-## Repository
+## Current project state
 
-[https://github.com/conor-clyde/Track-My-Spend](https://github.com/conor-clyde/Track-My-Spend)
+- Maven-based Java project
+- Core domain model in `domain` (`Customer`, `Account`, `Transaction`)
+- Category modeling split into `IncomeCategory` and `ExpenseCategory`
+- Spring web endpoint in `web/HomeController`
+- Two entry points:
+  - Console OOP runner: `Main`
+  - Spring Boot app runner: `FinanceApplication`
 
-## Features
-
-- Create and manage users and accounts
-- Record income and expense transactions
-- Organize spending by categories
-- Practice OOP concepts like encapsulation, inheritance, and abstraction
-
-## Tech Stack
-
-- Java
-- Object-Oriented Programming (OOP)
-
-## Run locally
+## Run
 
 From the project root:
 
+### Console OOP mode
+
 ```bash
-mkdir -p out
-javac -d out src/models/*.java src/values/*.java src/Main.java
-java -cp out Main
+mvn -q compile exec:java -Dexec.mainClass=com.cocoding.trackmyspend.Main
 ```
 
-## Why this project
+### Spring Boot mode
 
-- Strengthen Java fundamentals
-- Build a clean portfolio project for junior software roles
-- Create a base for future features (budgets, reports, persistence, tests)
+```bash
+mvn spring-boot:run
+```
+
+## Repo
+
+[https://github.com/conor-clyde/Track-My-Spend](https://github.com/conor-clyde/Track-My-Spend)

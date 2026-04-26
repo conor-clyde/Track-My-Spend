@@ -9,11 +9,10 @@ import com.cocoding.trackmyspend.domain.accounts.CheckingAccount;
 import com.cocoding.trackmyspend.domain.accounts.SavingsAccount;
 import com.cocoding.trackmyspend.domain.values.ExpenseCategory;
 import com.cocoding.trackmyspend.domain.values.IncomeCategory;
-import com.cocoding.trackmyspend.util.Util;
 
 public class Main {
     public static void main(String[] args) {
-        Util.print("Running OOP mode (no Spring Boot startup)");
+        System.out.println("Running OOP mode (no Spring Boot startup)");
 
         Customer customer = new Customer("Conor Clyde");
         Account checking = new CheckingAccount("Checking Account", 1200.00);
@@ -38,7 +37,7 @@ public class Main {
 
         for (Account account : customer.getAccounts()) {
             for (Transaction transaction : account.getTransctions()) {
-                Util.print(transaction.toString());
+                System.out.println(transaction);
             }
         }
     }
