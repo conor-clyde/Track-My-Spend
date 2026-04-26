@@ -10,13 +10,12 @@ public abstract class Account {
     private final String id;
     private String name;
     private double balance;
-    private List<Transaction> transctions;
+    private List<Transaction> transactions;
 
     public Account(String name, double balance) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.balance = balance;
-        this.transctions = new ArrayList<Transaction>();
     }
 
     public abstract void deposit(double amount);
@@ -43,15 +42,18 @@ public abstract class Account {
     }
 
     public List<Transaction> getTransctions() {
-        return transctions;
+        return transactions;
     }
 
     public void addTransaction(Transaction transaction) {
-        this.transctions.add(transaction);
+        if (transactions == null) {
+            transactions = new ArrayList<Transaction>();
+        }
+        this.transactions.add(transaction);
     }
 
     @Override
     public String toString() {
-        return "Account: Name=" + name + ", balance=" + balance + ", transctions=" + transctions.toString() + "]";
+        return "Account: Name=" + name + ", balance=" + balance + ", transactions=" + transactions.toString() + "]";
     }
 }

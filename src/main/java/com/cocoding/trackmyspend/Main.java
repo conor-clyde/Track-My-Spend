@@ -1,44 +1,28 @@
 package com.cocoding.trackmyspend;
 
-import java.time.LocalDateTime;
-
-import com.cocoding.trackmyspend.domain.Category;
 import com.cocoding.trackmyspend.domain.Transaction;
 import com.cocoding.trackmyspend.domain.User;
 import com.cocoding.trackmyspend.domain.accounts.Account;
-import com.cocoding.trackmyspend.domain.accounts.CheckingAccount;
-import com.cocoding.trackmyspend.domain.accounts.SavingsAccount;
+import com.cocoding.trackmyspend.seed.ConsoleMainSeeder;
+import com.cocoding.trackmyspend.service.ReportGenerator;
+import com.cocoding.trackmyspend.service.TransactionService;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Running OOP mode (no Spring Boot startup)");
 
-        User user = new User("Conor Clyde");
-        Account checking = new CheckingAccount("Checking Account", 1200.00);
-        Account savings = new SavingsAccount("Savings Account", 4000.00);
-        user.addAccount(checking);
-        user.addAccount(savings);
+        User user = ConsoleMainSeeder.seedBasicUser();
 
-        Category food = new Category("food", "Food", Transaction.TransactionType.EXPENSE);
-        Category salary = new Category("salary", "Salary", Transaction.TransactionType.INCOME);
+        System.err.println("before new transaction");
+        ReportGenerator reportGenerator = new ReportGenerator();
+        reportGenerator.generateReport(user);
 
-        Transaction expense = new Transaction(
-                40.00,
-                LocalDateTime.now(),
-                food,
-                "Food");
-        Transaction income = new Transaction(
-                1200.00,
-                LocalDateTime.now(),
-                salary,
-                "Salary");
-        checking.addTransaction(expense);
-        checking.addTransaction(income);
 
-        for (Account account : user.getAccounts()) {
-            for (Transaction transaction : account.getTransctions()) {
-                System.out.println(transaction);
-            }
-        }
+        TransactionService transactionService = new TransactionService();
+        transactionService.recordExpense(user.getAccounts().get(0), 60.00, user.getCategories().get(0), "Groceries");
+        System.out.println("Transaction recorded: Groceries");
+        reportGenerator.generateReport(user);
+
+     
     }
 }

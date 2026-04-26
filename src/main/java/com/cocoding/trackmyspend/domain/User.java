@@ -14,15 +14,13 @@ public class User {
     private final String id;
     private String name;
     private List<Account> accounts;
-    private List<Category> categories;
     private List<Budget> budgets;
+    private List<Category> categories;
 
     public User(String name) {
         this.id = UUID.randomUUID().toString();
         this.name = Objects.requireNonNull(name, "name");
-        this.accounts = new ArrayList<Account>();
-        this.categories = new ArrayList<Category>();
-        this.budgets = new ArrayList<Budget>();
+
     }
 
     public String getId() {
@@ -42,40 +40,38 @@ public class User {
     }
 
     public void addAccount(Account account) {
+        if (accounts == null) {
+            accounts = new ArrayList<Account>();
+        }
         accounts.add(account);
-    }
-
-    public List<Category> getCategories() {
-        return Collections.unmodifiableList(categories);
-    }
-
-    public void addCategory(Category category) {
-        categories.add(category);
-    }
-
-    public void removeCategory(Category category) {
-        categories.remove(category);
     }
 
     public void removeAccount(Account account) {
         accounts.remove(account);
     }
-
     public List<Budget> getBudgets() {
         return Collections.unmodifiableList(budgets);
     }
 
     public void addBudget(Budget budget) {
+        if (budgets == null) {
+            budgets = new ArrayList<Budget>();
+        }
         budgets.add(budget);
     }
+    public List<Category> getCategories() {
+        return Collections.unmodifiableList(categories);
+    }
 
-    public void removeBudget(Budget budget) {
-        budgets.remove(budget);
+    public void addCategory(Category category) {
+        if (categories == null) {
+            categories = new ArrayList<Category>();
+        }
+        categories.add(category);
     }
 
     @Override
     public String toString() {
-        return "User: Name=" + name + ", accounts=" +
-                accounts.toString() + ", categories=" + categories.toString() + ", budgets=" + budgets.toString() + "]";
+        return "User: Name=" + name + ", accounts=" + accounts.toString() + "]";
     }
 }

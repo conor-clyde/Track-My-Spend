@@ -1,22 +1,25 @@
 package com.cocoding.trackmyspend.domain;
 
-public class Category {
-    
-    private final String id;
-    private final String name;
-    private final Transaction.TransactionType type;
-    private final Category parent;
-    private final User user;
-    
+import java.util.Objects;
+import java.util.UUID;
 
-    public Category(String id, String name, Transaction.TransactionType type) {
-        this(id, name, type, null, null);
+public class Category {
+    public enum CategoryType {
+        INCOME,
+        EXPENSE
     }
 
-    public Category(String id, String name, Transaction.TransactionType type, Category parent, User user) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
+    private final String id;
+    private final String name;
+    private final CategoryType type;
+    private final Category parent;
+    private final User user;
+
+
+    public Category(String name, CategoryType type, Category parent, User user) {
+        this.id = UUID.randomUUID().toString();
+        this.name = Objects.requireNonNull(name, "name");
+        this.type = Objects.requireNonNull(type, "type");
         this.parent = parent;
         this.user = user;
     }
@@ -29,7 +32,7 @@ public class Category {
         return name;
     }
 
-    public Transaction.TransactionType getType() {
+    public CategoryType getType() {
         return type;
     }
 
@@ -42,10 +45,15 @@ public class Category {
     }
 
     public boolean isExpenseCategory() {
-        return type == Transaction.TransactionType.EXPENSE;
+        return type == CategoryType.EXPENSE;
     }
 
     public boolean isIncomeCategory() {
-        return type == Transaction.TransactionType.INCOME;
+        return type == CategoryType.INCOME;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
