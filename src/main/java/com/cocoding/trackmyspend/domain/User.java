@@ -7,19 +7,22 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.cocoding.trackmyspend.domain.accounts.Account;
-
 /**
  * Owns accounts; list is defensively copied (encapsulation).
  */
-public class Customer {
+public class User {
     private final String id;
     private String name;
     private List<Account> accounts;
+    private List<Category> categories;
+    private List<Budget> budgets;
 
-    public Customer(String name) {
+    public User(String name) {
         this.id = UUID.randomUUID().toString();
         this.name = Objects.requireNonNull(name, "name");
-        this.accounts = new ArrayList<>();
+        this.accounts = new ArrayList<Account>();
+        this.categories = new ArrayList<Category>();
+        this.budgets = new ArrayList<Budget>();
     }
 
     public String getId() {
@@ -42,13 +45,37 @@ public class Customer {
         accounts.add(account);
     }
 
+    public List<Category> getCategories() {
+        return Collections.unmodifiableList(categories);
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
+    }
+
     public void removeAccount(Account account) {
         accounts.remove(account);
     }
 
+    public List<Budget> getBudgets() {
+        return Collections.unmodifiableList(budgets);
+    }
+
+    public void addBudget(Budget budget) {
+        budgets.add(budget);
+    }
+
+    public void removeBudget(Budget budget) {
+        budgets.remove(budget);
+    }
+
     @Override
     public String toString() {
-        return "Customer: Name=" + name + ", accounts=" +
-        accounts.toString() + "]";
+        return "User: Name=" + name + ", accounts=" +
+                accounts.toString() + ", categories=" + categories.toString() + ", budgets=" + budgets.toString() + "]";
     }
 }

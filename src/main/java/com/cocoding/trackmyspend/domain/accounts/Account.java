@@ -16,7 +16,7 @@ public abstract class Account {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.balance = balance;
-        this.transctions = new ArrayList<>();
+        this.transctions = new ArrayList<Transaction>();
     }
 
     public abstract void deposit(double amount);
