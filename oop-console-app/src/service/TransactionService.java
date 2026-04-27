@@ -50,7 +50,8 @@ public class TransactionService {
         }
         fromAccount.withdraw(amount);
         toAccount.deposit(amount);
-        transactions.add(Transaction.transfer(amount, LocalDateTime.now(), fromAccount.getId(), toAccount.getId(), description));
+        transactions.add(
+                Transaction.transfer(amount, LocalDateTime.now(), fromAccount.getId(), toAccount.getId(), description));
     }
 
     public List<Transaction> getTransactionsForAccount(String accountId) {
@@ -58,9 +59,8 @@ public class TransactionService {
             throw new TransactionException("Account ID is required.");
         }
         return transactions.stream()
-                .filter(transaction ->
-                        accountId.equals(transaction.getFromAccountId())
-                                || accountId.equals(transaction.getToAccountId()))
+                .filter(transaction -> accountId.equals(transaction.getFromAccountId())
+                        || accountId.equals(transaction.getToAccountId()))
                 .toList();
     }
 

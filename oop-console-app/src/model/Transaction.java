@@ -27,42 +27,24 @@ public class Transaction {
     private final String fromAccountId;
     private final String toAccountId;
 
-    public static Transaction income(
-            double amount,
-            LocalDateTime timestamp,
-            String toAccountId,
-            Category category,
+    public static Transaction income(double amount, LocalDateTime timestamp, String toAccountId, Category category,
             String description) {
         return new Transaction(amount, timestamp, description, TransactionType.INCOME, category, null, toAccountId);
     }
 
-    public static Transaction expense(
-            double amount,
-            LocalDateTime timestamp,
-            String fromAccountId,
-            Category category,
+    public static Transaction expense(double amount, LocalDateTime timestamp, String fromAccountId, Category category,
             String description) {
         return new Transaction(amount, timestamp, description, TransactionType.EXPENSE, category, fromAccountId, null);
     }
 
-    public static Transaction transfer(
-            double amount,
-            LocalDateTime timestamp,
-            String fromAccountId,
-            String toAccountId,
+    public static Transaction transfer(double amount, LocalDateTime timestamp, String fromAccountId, String toAccountId,
             String description) {
         return new Transaction(amount, timestamp, description, TransactionType.TRANSFER, null, fromAccountId,
                 toAccountId);
     }
 
-    private Transaction(
-            double amount,
-            LocalDateTime timestamp,
-            String description,
-            TransactionType type,
-            Category category,
-            String fromAccountId,
-            String toAccountId) {
+    private Transaction(double amount, LocalDateTime timestamp, String description, TransactionType type,
+            Category category, String fromAccountId, String toAccountId) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Amount must be positive.");
         }
@@ -76,11 +58,7 @@ public class Transaction {
         this.amount = amount;
     }
 
-    private void validateShape(
-            TransactionType type,
-            Category category,
-            String fromAccountId,
-            String toAccountId) {
+    private void validateShape( TransactionType type, Category category,String fromAccountId, String toAccountId) {
         if (type == TransactionType.TRANSFER) {
             if (fromAccountId == null || toAccountId == null) {
                 throw new IllegalArgumentException("Transfer transactions require fromAccountId and toAccountId.");
