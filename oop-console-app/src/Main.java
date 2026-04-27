@@ -1,11 +1,11 @@
-package com.cocoding.trackmyspend;
 
-import com.cocoding.trackmyspend.domain.Transaction.TransactionType;
-import com.cocoding.trackmyspend.domain.User;
-import com.cocoding.trackmyspend.seed.ConsoleMainSeeder;
-import com.cocoding.trackmyspend.service.ReportGenerator;
-import com.cocoding.trackmyspend.service.TransactionException;
-import com.cocoding.trackmyspend.service.TransactionService;
+
+import model.Transaction.TransactionType;
+import model.User;
+import util.ConsoleMainSeeder;
+import service.ReportGenerator;
+import service.TransactionException;
+import service.TransactionService;
 
 public class Main {
     public static void main(String[] args) {

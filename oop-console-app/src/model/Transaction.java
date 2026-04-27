@@ -1,4 +1,4 @@
-package com.cocoding.trackmyspend.domain;
+package model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -152,7 +152,6 @@ public class Transaction {
      }
 
 
-
     public void setCategory(Category category) {
         this.category = Objects.requireNonNull(category, "category");
     }
@@ -203,7 +202,6 @@ public class Transaction {
                 + ", description=" + description
                 + ", type=" + type;
     }
-
 
 }
 

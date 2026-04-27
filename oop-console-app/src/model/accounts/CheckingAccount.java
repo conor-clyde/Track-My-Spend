@@ -1,4 +1,4 @@
-package com.cocoding.trackmyspend.domain.accounts;
+package model.accounts;
 
 public class CheckingAccount extends Account {
     public CheckingAccount(String name, double openingBalance) {

@@ -1,10 +1,10 @@
-package com.cocoding.trackmyspend.service;
+package service;
 
 import java.util.List;
 
-import com.cocoding.trackmyspend.domain.Transaction;
-import com.cocoding.trackmyspend.domain.User;
-import com.cocoding.trackmyspend.domain.accounts.Account;
+import model.Transaction;
+import model.User;
+import model.accounts.Account;
 
 public class ReportGenerator {
     public void generateReport(User user, TransactionService transactionService) {
@@ -19,7 +19,6 @@ public class ReportGenerator {
             System.out.println("Report for account: " + account.getName());
             System.out.println("----------------------------------------------------");
             
-
 
             List<Transaction> transactions = transactionService.getTransactionsForAccount(account.getId());
             System.out.println("Number of transactions: " + transactions.size());

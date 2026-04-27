@@ -1,17 +1,17 @@
-package com.cocoding.trackmyspend.seed;
+package util;
 
 import java.time.YearMonth;
 
-import com.cocoding.trackmyspend.domain.Budget;
-import com.cocoding.trackmyspend.domain.Category;
-import com.cocoding.trackmyspend.domain.Category.CategoryType;
-import com.cocoding.trackmyspend.domain.Transaction;
-import com.cocoding.trackmyspend.domain.User;
-import com.cocoding.trackmyspend.domain.accounts.Account;
-import com.cocoding.trackmyspend.domain.accounts.CashAccount;
-import com.cocoding.trackmyspend.domain.accounts.CheckingAccount;
-import com.cocoding.trackmyspend.domain.accounts.SavingsAccount;
-import com.cocoding.trackmyspend.service.TransactionService;
+import model.Budget;
+import model.Category;
+import model.Category.CategoryType;
+import model.Transaction;
+import model.User;
+import model.accounts.Account;
+import model.accounts.CashAccount;
+import model.accounts.CheckingAccount;
+import model.accounts.SavingsAccount;
+import service.TransactionService;
 
 /**
  * Builds in-memory sample data for console testing.

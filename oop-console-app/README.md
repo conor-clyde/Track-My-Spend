@@ -5,5 +5,7 @@ Pure Java console app for OOP/domain modeling.
 ## Run
 
 ```bash
-mvn -q compile exec:java -Dexec.mainClass=com.cocoding.trackmyspend.Main
+mkdir -p out
+javac -d out $(find src -name "*.java")
+java -cp out Main
 ```

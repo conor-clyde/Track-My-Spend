@@ -1,4 +1,4 @@
-package com.cocoding.trackmyspend.domain.accounts;
+package model.accounts;
 
 import java.util.UUID;
 

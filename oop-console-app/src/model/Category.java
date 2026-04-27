@@ -1,4 +1,4 @@
-package com.cocoding.trackmyspend.domain;
+package model;
 
 import java.util.Objects;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.cocoding.trackmyspend.domain;
+package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.cocoding.trackmyspend.domain.accounts.Account;
+import model.accounts.Account;
 
 /**
  * Represents a user of the application.

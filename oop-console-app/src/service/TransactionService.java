@@ -1,13 +1,13 @@
-package com.cocoding.trackmyspend.service;
+package service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.cocoding.trackmyspend.domain.Category;
-import com.cocoding.trackmyspend.domain.Transaction;
-import com.cocoding.trackmyspend.domain.Transaction.TransactionType;
+import model.Category;
+import model.Transaction;
+import model.Transaction.TransactionType;
 
 public class TransactionService {
     private final List<Transaction> transactions;

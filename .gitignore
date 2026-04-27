@@ -1,9 +1,9 @@
 # Compiled
 *.class
-out/
+oop-console-app/out/
 bin/
 build/
-target/
+springboot-app/target/
 
 # IDE
 .idea/
