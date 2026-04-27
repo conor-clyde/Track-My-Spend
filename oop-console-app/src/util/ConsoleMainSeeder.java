@@ -58,7 +58,7 @@ public final class ConsoleMainSeeder {
     }
 
     private static Category addCategory(User user, String name, CategoryType type) {
-        Category category = new Category(name, type, null, user);
+        Category category = new Category(name, type);
         user.addCategory(category);
         return category;
     }
@@ -70,9 +70,13 @@ public final class ConsoleMainSeeder {
             Category category,
             String description,
             Transaction.TransactionType transactionType) {
-        String fromAccountId = transactionType == Transaction.TransactionType.EXPENSE ? account.getId() : null;
-        String toAccountId = transactionType == Transaction.TransactionType.INCOME ? account.getId() : null;
-        transactionService.createTransaction(transactionType, fromAccountId, toAccountId, amount, description, category.getName());
+        if (transactionType == Transaction.TransactionType.INCOME) {
+            transactionService.recordIncome(account, amount, category, description);
+        } else if (transactionType == Transaction.TransactionType.EXPENSE) {
+            transactionService.recordExpense(account, amount, category, description);
+        } else {
+            throw new IllegalArgumentException("Use addTransfer for transfer transactions.");
+        }
     }
 
     private static void addTransfer(
@@ -81,6 +85,6 @@ public final class ConsoleMainSeeder {
             Account toAccount,
             double amount,
             String description) {
-        transactionService.createTransaction(Transaction.TransactionType.TRANSFER, fromAccount.getId(), toAccount.getId(), amount, description, null);
+        transactionService.transfer(fromAccount, toAccount, amount, description);
     }
 }

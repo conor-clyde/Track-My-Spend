@@ -14,7 +14,7 @@ public abstract class Account {
     public Account(String name, double openingBalance) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.balance = balance;
+        this.balance = openingBalance;
     }
 
     public String getId() {
@@ -25,16 +25,29 @@ public abstract class Account {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public double getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+        }
+        this.balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        }
+        if (!canWithdraw(amount)) {
+            throw new IllegalArgumentException("Insufficient funds for this account.");
+        }
+        this.balance -= amount;
+    }
+
+    protected boolean canWithdraw(double amount) {
+        return balance >= amount;
     }
 
     @Override

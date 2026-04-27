@@ -3,12 +3,11 @@ package model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Transaction-centric model:
- * - INCOME:   toAccountId is set, fromAccountId is null
- * - EXPENSE:  fromAccountId is set, toAccountId is null
+ * - INCOME: toAccountId is set, fromAccountId is null
+ * - EXPENSE: fromAccountId is set, toAccountId is null
  * - TRANSFER: both fromAccountId and toAccountId are set
  */
 public class Transaction {
@@ -20,26 +19,13 @@ public class Transaction {
         TRANSFER
     }
 
-    private final String id;
-    private  double amount;
-    private  LocalDateTime timestamp;
-    private  String description;
-    private  TransactionType type;
-    private  Category category;
-    private  String fromAccountId;
-    private  String toAccountId;
-    
-
-    public Transaction() {
-        this.id = UUID.randomUUID().toString();
-        this.amount = 0;
-        this.timestamp = LocalDateTime.now();
-        this.description = "";
-        this.type = TransactionType.INCOME;
-        this.category = null;
-        this.fromAccountId = null;
-        this.toAccountId = null;
-    }
+    private final double amount;
+    private final LocalDateTime timestamp;
+    private final String description;
+    private final TransactionType type;
+    private final Category category;
+    private final String fromAccountId;
+    private final String toAccountId;
 
     public static Transaction income(
             double amount,
@@ -65,7 +51,8 @@ public class Transaction {
             String fromAccountId,
             String toAccountId,
             String description) {
-        return new Transaction(amount, timestamp, description, TransactionType.TRANSFER, null, fromAccountId, toAccountId);
+        return new Transaction(amount, timestamp, description, TransactionType.TRANSFER, null, fromAccountId,
+                toAccountId);
     }
 
     private Transaction(
@@ -76,7 +63,6 @@ public class Transaction {
             Category category,
             String fromAccountId,
             String toAccountId) {
-        this.id = UUID.randomUUID().toString();
         if (amount <= 0) {
             throw new IllegalArgumentException("Amount must be positive.");
         }
@@ -131,57 +117,12 @@ public class Transaction {
         }
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-     public void setType(TransactionType type) {
-        this.type = Objects.requireNonNull(type, "type");
-     }
-
-
-    public void setCategory(Category category) {
-        this.category = Objects.requireNonNull(category, "category");
-    }
-
-    public void setFromAccountId(String fromAccountId) {
-        this.fromAccountId = fromAccountId;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
     public String getFromAccountId() {
         return fromAccountId;
     }
 
     public String getToAccountId() {
         return toAccountId;
-    }
-
-    public TransactionType getTransactionType() {
-        return type;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     @Override
@@ -202,6 +143,4 @@ public class Transaction {
                 + ", description=" + description
                 + ", type=" + type;
     }
-
 }
-

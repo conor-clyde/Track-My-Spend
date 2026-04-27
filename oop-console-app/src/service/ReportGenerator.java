@@ -18,8 +18,6 @@ public class ReportGenerator {
             System.out.println("\n----------------------------------------------------");
             System.out.println("Report for account: " + account.getName());
             System.out.println("----------------------------------------------------");
-            
-
             List<Transaction> transactions = transactionService.getTransactionsForAccount(account.getId());
             System.out.println("Number of transactions: " + transactions.size());
             for (Transaction transaction : transactions) {
@@ -27,6 +25,4 @@ public class ReportGenerator {
             }
         }
     }
-
 }
-
