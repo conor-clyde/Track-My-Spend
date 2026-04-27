@@ -15,7 +15,6 @@ public class Category {
     private final Category parent;
     private final User user;
 
-
     public Category(String name, CategoryType type, Category parent, User user) {
         this.id = UUID.randomUUID().toString();
         this.name = Objects.requireNonNull(name, "name");

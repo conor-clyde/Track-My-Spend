@@ -1,26 +1,20 @@
 package com.cocoding.trackmyspend.domain.accounts;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import com.cocoding.trackmyspend.domain.Transaction;
-
+/**
+ * Simple account model. Transactions are stored centrally in TransactionService.
+ */
 public abstract class Account {
     private final String id;
     private String name;
-    private double balance;
-    private List<Transaction> transactions;
+    private final double openingBalance;
 
-    public Account(String name, double balance) {
+    public Account(String name, double openingBalance) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.balance = balance;
-        this.transactions = new ArrayList<Transaction>();
+        this.openingBalance = openingBalance;
     }
-
-    public abstract void deposit(double amount);
-    public abstract void withdraw(double amount);
 
     public String getId() {
         return id;
@@ -34,28 +28,12 @@ public abstract class Account {
         this.name = name;
     }
 
-    public double getBalance() {
-        return balance;
-    }
-
-    public void changeBalance(double amount) {
-        this.balance += amount;
-    }
-
-    public List<Transaction> getTransctions() {
-        return transactions;
-    }
-
-    public void addTransaction(Transaction transaction) {
-        transactions.add(transaction);
-    }
-
-    public void removeTransaction(Transaction transaction) {
-        transactions.remove(transaction);
+    public double getOpeningBalance() {
+        return openingBalance;
     }
 
     @Override
     public String toString() {
-        return "Account: Name=" + name + ", balance=" + balance + ", transactions=" + transactions.toString();
+        return "Account: Name=" + name + ", openingBalance=" + openingBalance;
     }
 }

@@ -1,6 +1,5 @@
 package com.cocoding.trackmyspend.seed;
 
-import java.time.LocalDateTime;
 import java.time.YearMonth;
 
 import com.cocoding.trackmyspend.domain.Budget;
@@ -12,6 +11,7 @@ import com.cocoding.trackmyspend.domain.accounts.Account;
 import com.cocoding.trackmyspend.domain.accounts.CashAccount;
 import com.cocoding.trackmyspend.domain.accounts.CheckingAccount;
 import com.cocoding.trackmyspend.domain.accounts.SavingsAccount;
+import com.cocoding.trackmyspend.service.TransactionService;
 
 /**
  * Builds in-memory sample data for console testing.
@@ -21,7 +21,7 @@ public final class ConsoleMainSeeder {
     private ConsoleMainSeeder() {
     }
 
-    public static User seedBasicUser() {
+    public static User seedBasicUser(TransactionService transactionService) {
         User user = new User("Conor Clyde");
 
         Account checking = addAccount(user, new CheckingAccount("Checking", 2000.00));
@@ -41,14 +41,13 @@ public final class ConsoleMainSeeder {
         user.addBudget(groceriesBudget);
         user.addBudget(petBudget);
 
-        LocalDateTime now = LocalDateTime.now();
-        addTransaction(checking, 3200.00, now.minusDays(12), salary, "Monthly salary", Transaction.TransactionType.INCOME);
-        addTransaction(checking, 1450.00, now.minusDays(10), rent, "Rent payment", Transaction.TransactionType.EXPENSE);
-        addTransaction(checking, 95.00, now.minusDays(7), groceries, "Weekly groceries", Transaction.TransactionType.EXPENSE);
-        addTransaction(checking, 65.00, now.minusDays(4), transport, "Metro card top-up", Transaction.TransactionType.EXPENSE);
-        addTransaction(checking, 42.00, now.minusDays(2), dining, "Dinner with friends", Transaction.TransactionType.EXPENSE);
-        addTransaction(cash, 28.00, now.minusDays(1), pet, "Cat food", Transaction.TransactionType.EXPENSE);
-        addTransfer(checking, savings, 500.00, now.minusDays(3), "Move money to savings");
+        addTransaction(transactionService, checking, 3200.00, salary, "Monthly salary", Transaction.TransactionType.INCOME);
+        addTransaction(transactionService, checking, 1450.00, rent, "Rent payment", Transaction.TransactionType.EXPENSE);
+        addTransaction(transactionService, checking, 95.00, groceries, "Weekly groceries", Transaction.TransactionType.EXPENSE);
+        addTransaction(transactionService, checking, 65.00, transport, "Metro card top-up", Transaction.TransactionType.EXPENSE);
+        addTransaction(transactionService, checking, 42.00, dining, "Dinner with friends", Transaction.TransactionType.EXPENSE);
+        addTransaction(transactionService, cash, 28.00, pet, "Cat food", Transaction.TransactionType.EXPENSE);
+        addTransfer(transactionService, checking, savings, 500.00, "Move money to savings");
 
         return user;
     }
@@ -65,25 +64,23 @@ public final class ConsoleMainSeeder {
     }
 
     private static void addTransaction(
+            TransactionService transactionService,
             Account account,
             double amount,
-            LocalDateTime timestamp,
             Category category,
             String description,
             Transaction.TransactionType transactionType) {
-        account.addTransaction(new Transaction(amount, timestamp, category, description, transactionType));
+        String fromAccountId = transactionType == Transaction.TransactionType.EXPENSE ? account.getId() : null;
+        String toAccountId = transactionType == Transaction.TransactionType.INCOME ? account.getId() : null;
+        transactionService.createTransaction(transactionType, fromAccountId, toAccountId, amount, description, category.getName());
     }
 
     private static void addTransfer(
+            TransactionService transactionService,
             Account fromAccount,
             Account toAccount,
             double amount,
-            LocalDateTime timestamp,
             String description) {
-        fromAccount.changeBalance(-amount);
-        toAccount.changeBalance(amount);
-
-        fromAccount.addTransaction(new Transaction(amount, timestamp, description, Transaction.TransactionType.TRANSFER));
-        toAccount.addTransaction(new Transaction(amount, timestamp, description, Transaction.TransactionType.TRANSFER));
+        transactionService.createTransaction(Transaction.TransactionType.TRANSFER, fromAccount.getId(), toAccount.getId(), amount, description, null);
     }
 }

@@ -1,6 +1,7 @@
 package com.cocoding.trackmyspend;
 
 import com.cocoding.trackmyspend.domain.Transaction;
+import com.cocoding.trackmyspend.domain.Transaction.TransactionType;
 import com.cocoding.trackmyspend.domain.User;
 import com.cocoding.trackmyspend.seed.ConsoleMainSeeder;
 import com.cocoding.trackmyspend.service.ReportGenerator;
@@ -10,20 +11,21 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Running OOP mode (no Spring Boot startup)");
 
-        User user = ConsoleMainSeeder.seedBasicUser();
-
-        System.err.println("before new transaction");
-        ReportGenerator reportGenerator = new ReportGenerator();
-
         TransactionService transactionService = new TransactionService();
-        transactionService.recordTransaction(
-                user.getAccounts().get(0),
-                60.00,
-                user.getCategories().get(0),
-                "Groceries",
-                Transaction.TransactionType.EXPENSE);
-        System.out.println("Transaction recorded: Groceries");
-        reportGenerator.generateReport(user);
+        User user = ConsoleMainSeeder.seedBasicUser(transactionService);
+        
+   
+        ReportGenerator reportGenerator = new ReportGenerator();
+        reportGenerator.generateReport(user, transactionService);
+        
+         transactionService.createTransaction(
+            TransactionType.INCOME,
+            null,
+            user.getAccounts().get(0).getId(),
+            60.00,
+            "Groceries",
+            user.getCategories().get(0).getId()
+        );
 
     }
 }
