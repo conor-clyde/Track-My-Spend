@@ -3,17 +3,18 @@ package com.cocoding.trackmyspend.domain.accounts;
 import java.util.UUID;
 
 /**
- * Simple account model. Transactions are stored centrally in TransactionService.
+ * Simple account model. Transactions are stored centrally in
+ * TransactionService.
  */
 public abstract class Account {
     private final String id;
     private String name;
-    private final double openingBalance;
+    private double balance;
 
     public Account(String name, double openingBalance) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.openingBalance = openingBalance;
+        this.balance = balance;
     }
 
     public String getId() {
@@ -28,12 +29,16 @@ public abstract class Account {
         this.name = name;
     }
 
-    public double getOpeningBalance() {
-        return openingBalance;
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     @Override
     public String toString() {
-        return "Account: Name=" + name + ", openingBalance=" + openingBalance;
+        return "Account: Name=" + name + ", balance=" + balance;
     }
 }

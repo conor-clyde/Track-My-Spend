@@ -1,33 +1,22 @@
-# TrackMySpend
+# Finance Tracker
 
-TrackMySpend is a simple Java finance tracker used to practice OOP fundamentals, while keeping a Spring Boot starter setup ready for web/API work.
+This repository is split into two separate apps so console OOP work and Spring Boot work can evolve independently.
 
-## Current project state
+## Structure
 
-- Maven-based Java project
-- Core domain model in `domain` (`Customer`, `Account`, `Transaction`)
-- Category modeling split into `IncomeCategory` and `ExpenseCategory`
-- Spring web endpoint in `web/HomeController`
-- Two entry points:
-  - Console OOP runner: `Main`
-  - Spring Boot app runner: `FinanceApplication`
+- `oop-console-app/` - pure Java console application (no Spring)
+- `springboot-app/` - Spring Boot application
 
 ## Run
 
-From the project root:
-
-### Console OOP mode
+### Console OOP app
 
 ```bash
-mvn -q compile exec:java -Dexec.mainClass=com.cocoding.trackmyspend.Main
+mvn -q -pl oop-console-app compile exec:java -Dexec.mainClass=com.cocoding.trackmyspend.Main
 ```
 
-### Spring Boot mode
+### Spring Boot app
 
 ```bash
-mvn spring-boot:run
+mvn -pl springboot-app spring-boot:run
 ```
-
-## Repo
-
-[https://github.com/conor-clyde/Track-My-Spend](https://github.com/conor-clyde/Track-My-Spend)

@@ -7,6 +7,6 @@ public class CheckingAccount extends Account {
 
     @Override
     public String toString() {
-        return "CheckingAccount [id=" + getId() + ", name=" + getName() + ", openingBalance=" + getOpeningBalance() + "]";
+        return "CheckingAccount [id=" + getId() + ", name=" + getName() + ", balance=" + getBalance() + "]";
     }
 }
