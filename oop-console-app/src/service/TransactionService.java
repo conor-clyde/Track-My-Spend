@@ -6,7 +6,6 @@ import java.util.List;
 
 import model.Category;
 import model.Transaction;
-import model.Transaction.TransactionType;
 import model.accounts.Account;
 
 public class TransactionService {

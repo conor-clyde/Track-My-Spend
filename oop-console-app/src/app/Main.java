@@ -1,3 +1,5 @@
+package app;
+
 import model.User;
 import service.ReportGenerator;
 import service.TransactionException;
@@ -6,11 +8,11 @@ import util.ConsoleMainSeeder;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Running OOP mode (no Spring Boot startup)");
+        System.out.println("Running OOP mode");
 
         try {
             TransactionService transactionService = new TransactionService();
-            User user = ConsoleMainSeeder.seedBasicUser(transactionService);
+            User user = ConsoleMainSeeder.seedBasicUser();
 
             ReportGenerator reportGenerator = new ReportGenerator();
             reportGenerator.generateReport(user, transactionService);
